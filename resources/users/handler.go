@@ -16,6 +16,11 @@ type authData struct {
 
 // ShowUsersHandler ...
 func ShowUsersHandler(c *fasthttp.RequestCtx) {
+	// You can fetch current user object like that:
+	// currentUser := c.UserValue("user").(*User)
+	// currentUser = currentUser.Reload()
+	// utils.LogError(fmt.Sprintf("%+v", currentUser))
+
 	id, _ := strconv.Atoi(c.UserValue("id").(string))
 	u, err := FindUser(id)
 
