@@ -3,6 +3,7 @@ module github.com/zoommix/fasthttp_template
 go 1.15
 
 require (
+	github.com/alexsasharegan/dotenv v0.0.0-20171113213728-090a4d1b5d42 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fasthttp/router v1.3.5
 	github.com/google/uuid v1.1.4 // indirect

@@ -19,6 +19,8 @@ config/development.conf
 config/test.conf
 config/production.conf
 
+.env
+
 log/*.log
 
 coverage.out

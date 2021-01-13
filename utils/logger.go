@@ -25,8 +25,8 @@ const (
 
 var (
 	levels = map[string]int{
-		"error":   1,
-		"notice":  2,
+		"notice":  1,
+		"error":   2,
 		"warning": 3,
 		"info":    4,
 		"debug":   5,
@@ -39,7 +39,8 @@ var (
 // PgxLogger ...
 type PgxLogger struct{}
 
-func init() {
+// Init ...
+func Init() {
 	env := GetENV()
 
 	envLevel := os.Getenv(logLevelKey)
