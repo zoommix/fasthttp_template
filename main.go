@@ -12,7 +12,7 @@ func main() {
 	defer pg.Close()
 
 	err := dotenv.Load()
-	utils.Init()
+	utils.InitLogger()
 
 	if err != nil {
 		utils.LogError("Error loading .env file: ", err.Error())

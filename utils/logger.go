@@ -39,8 +39,8 @@ var (
 // PgxLogger ...
 type PgxLogger struct{}
 
-// Init ...
-func Init() {
+// InitLogger ...
+func InitLogger() {
 	env := GetENV()
 
 	envLevel := os.Getenv(logLevelKey)
