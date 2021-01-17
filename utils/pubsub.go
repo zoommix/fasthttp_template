@@ -12,7 +12,7 @@ import (
 type Client struct {
 	ID         string
 	Connection *websocket.Conn
-	User       interface{}
+	UserID     int
 }
 
 // PubSub ...
@@ -39,8 +39,8 @@ type Message struct {
 }
 
 // NewClient ...
-func NewClient() Client {
-	return Client{ID: autoID()}
+func NewClient(conn *websocket.Conn) Client {
+	return Client{ID: autoID(), Connection: conn}
 }
 
 // NewMessage ...
@@ -77,7 +77,7 @@ func (client *Client) Send(message []byte) error {
 func (ps *PubSub) AddClient(client Client) *PubSub {
 	ps.Clients = append(ps.Clients, client)
 
-	LogInfo("Adding new client: ", client.ID, " to the list. Total clients: ", len(ps.Clients))
+	LogInfo("Adding new client: UserID=", client.UserID, " to the list. Total clients: ", len(ps.Clients))
 
 	return ps
 }

@@ -47,7 +47,7 @@ func TimingMW(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 // AuthMW ..
 func AuthMW(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	return func(ctx *fasthttp.RequestCtx) {
-		u := fetchUser(ctx)
+		u := fetchUserByCtx(ctx)
 
 		if u != nil {
 			ctx.SetUserValue("user", u)
@@ -59,7 +59,7 @@ func AuthMW(next fasthttp.RequestHandler) fasthttp.RequestHandler {
 	}
 }
 
-func fetchUser(ctx *fasthttp.RequestCtx) *users.User {
+func fetchUserByCtx(ctx *fasthttp.RequestCtx) *users.User {
 	token := string(ctx.Request.Header.Peek("Authorization"))
 	u, err := users.DecodeJWT(token)
 

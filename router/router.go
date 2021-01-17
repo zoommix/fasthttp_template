@@ -2,7 +2,6 @@ package router
 
 import (
 	"encoding/json"
-	"log"
 
 	routing "github.com/fasthttp/router"
 	"github.com/fasthttp/websocket"
@@ -14,6 +13,8 @@ import (
 const (
 	// CLOSE connection action key
 	CLOSE = "close"
+	// HELLO ..
+	HELLO = "hello"
 )
 
 // New ...
@@ -57,10 +58,16 @@ func wsRouter(ctx *fasthttp.RequestCtx) {
 		return true
 	}
 
+	user := fetchWsUser(ctx)
+
+	if user == nil {
+		utils.LogInfo("Unable to authorize user")
+		return
+	}
+
 	err := upgrader.Upgrade(ctx, func(conn *websocket.Conn) {
-		client := utils.NewClient()
-		client.Connection = conn
-		client.User = users.User{}
+		client := utils.NewClient(conn)
+		client.UserID = user.ID
 
 		// add this client into the list
 		ps.AddClient(client)
@@ -70,11 +77,9 @@ func wsRouter(ctx *fasthttp.RequestCtx) {
 			utils.LogInfo(string(payload))
 
 			if err != nil {
-				log.Println("Something went wrong", err)
-
+				utils.LogError(err)
 				ps.RemoveClient(client)
 				utils.LogInfo("total clients and subscriptions ", len(ps.Clients), len(ps.Subscriptions))
-
 				return
 			}
 
@@ -90,8 +95,10 @@ func wsRouter(ctx *fasthttp.RequestCtx) {
 
 			case CLOSE:
 				utils.LogInfo("Disconnecting client: ", client.ID)
-				ps.Publish(m.Topic, m.Message, &client)
 				return
+
+			case HELLO:
+				users.HelloHandler(&client)
 
 			default:
 				break
@@ -102,4 +109,14 @@ func wsRouter(ctx *fasthttp.RequestCtx) {
 	if err != nil {
 		utils.LogError(err)
 	}
+}
+
+func fetchWsUser(ctx *fasthttp.RequestCtx) *users.User {
+	token := string(ctx.QueryArgs().Peek("token"))
+
+	if len(ctx.Request.Header.Peek("Authorization")) == 0 {
+		ctx.Request.Header.Add("Authorization", token)
+	}
+
+	return fetchUserByCtx(ctx)
 }
