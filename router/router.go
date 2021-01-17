@@ -27,6 +27,9 @@ func New() *routing.Router {
 
 	router.ANY("/ws", wsRouter)
 
+	// ./static/somefile_in_static_folder
+	router.GET("/static/{file}", fasthttp.FSHandler(utils.GetPWD(), 0))
+
 	usersGroup := router.Group("/users")
 	usersGroup.GET("/{id}", withAuth.ApplyToHandler(users.ShowUsersHandler))
 	usersGroup.POST("", withTiming.ApplyToHandler(users.CreateUserHandler))
