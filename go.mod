@@ -6,7 +6,10 @@ require (
 	github.com/alexsasharegan/dotenv v0.0.0-20171113213728-090a4d1b5d42
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/fasthttp/router v1.3.5
+	github.com/fasthttp/websocket v1.4.3
+	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/google/uuid v1.1.4 // indirect
+	github.com/gorilla/websocket v1.4.2
 	github.com/imdario/mergo v0.3.11 // indirect
 	github.com/jackc/pgproto3/v2 v2.0.7 // indirect
 	github.com/jackc/pgx/v4 v4.10.1
