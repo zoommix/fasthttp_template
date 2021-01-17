@@ -29,3 +29,15 @@ func GetPort() string {
 
 	return port
 }
+
+// GetPWD ...
+func GetPWD() string {
+	dir, err := os.Getwd()
+
+	if err != nil {
+		LogError(err)
+		return ""
+	}
+
+	return dir + "/"
+}

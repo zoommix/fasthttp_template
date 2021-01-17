@@ -14,13 +14,11 @@ import (
 )
 
 const (
-	envKey        = "ENV"
-	logFile       = "log/%s.log"
-	skippedENV    = "test"
-	logLevelKey   = "LOG_LEVEL"
-	defProjFolder = "/fasthttp_template/"
-	projFolderKey = "PROJECT_FOLDER"
-	chmod         = 0666
+	envKey      = "ENV"
+	logFile     = "log/%s.log"
+	skippedENV  = "test"
+	logLevelKey = "LOG_LEVEL"
+	chmod       = 0666
 )
 
 var (
@@ -126,14 +124,7 @@ func isLevelEnabled(lvl int) bool {
 
 func getLoggerLine() string {
 	_, fn, line, _ := runtime.Caller(2)
-	projFolder := defProjFolder
-	envProjFolder := os.Getenv(projFolderKey)
-
-	if len(envProjFolder) != 0 {
-		projFolder = "/" + envProjFolder + "/"
-	}
-
-	fns := strings.Split(fn, projFolder)
+	fns := strings.Split(fn, GetPWD())
 	fn = fns[len(fns)-1]
 
 	return fmt.Sprintf("\t%s:%d  ", fn, line)
