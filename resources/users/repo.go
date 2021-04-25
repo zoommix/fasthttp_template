@@ -10,7 +10,6 @@ import (
 
 	pg "github.com/zoommix/fasthttp_template/store"
 	"github.com/zoommix/fasthttp_template/utils"
-	log "github.com/zoommix/fasthttp_template/utils"
 )
 
 // CreateUser ...
@@ -32,12 +31,12 @@ func CreateUser(u *User) (*User, error) {
 		Scan(&u.ID, &u.CreatedAt)
 
 	if err != nil {
-		log.LogInfo(fmt.Sprintf("Unable to create user with email=%+v", u))
+		utils.LogInfo(fmt.Sprintf("Unable to create user with email=%+v", u))
 
 		return nil, errors.New(strings.Replace(err.Error(), `"`, `'`, -1))
 	}
 
-	log.LogInfo(fmt.Sprintf("Created user with ID=%d, email=%s", u.ID, u.Email))
+	utils.LogInfo(fmt.Sprintf("Created user with ID=%d, email=%s", u.ID, u.Email))
 
 	return u, nil
 }

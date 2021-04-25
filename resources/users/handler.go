@@ -6,7 +6,6 @@ import (
 
 	"github.com/valyala/fasthttp"
 	"github.com/zoommix/fasthttp_template/utils"
-	log "github.com/zoommix/fasthttp_template/utils"
 )
 
 type authData struct {
@@ -49,7 +48,7 @@ func CreateUserHandler(c *fasthttp.RequestCtx) {
 	user, err := CreateUser(user)
 
 	if err != nil {
-		log.LogError("Unable to create user", err)
+		utils.LogError("Unable to create user", err)
 		utils.RenderInternalError(c, err.Error())
 		return
 	}
@@ -80,7 +79,7 @@ func Authenticate(c *fasthttp.RequestCtx) {
 	user, err := FindUserByEmail(creds.Email)
 
 	if err != nil || user.PasswordDigest != encodedPass {
-		log.LogError("invalid token or password", err)
+		utils.LogError("invalid token or password", err)
 		utils.RenderUnauthorized(c, "invalid token or password")
 		return
 	}
