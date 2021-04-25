@@ -31,7 +31,6 @@ func ShowUsersHandler(c *fasthttp.RequestCtx) {
 
 	utils.SetStatus(c, fasthttp.StatusOK)
 	utils.WriteJSON(c, UserToJSON(u))
-	return
 }
 
 // CreateUserHandler ...
@@ -55,7 +54,6 @@ func CreateUserHandler(c *fasthttp.RequestCtx) {
 
 	utils.SetStatus(c, fasthttp.StatusCreated)
 	utils.WriteJSON(c, UserToJSON(user))
-	return
 }
 
 func userParams(c *fasthttp.RequestCtx) *User {
