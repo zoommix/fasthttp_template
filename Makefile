@@ -2,6 +2,8 @@ MAKEFLAGS += --silent
 
 .PHONY: run
 
+no_targets__:
+
 run/dev:
 	CompileDaemon -build "go build -v -o ./bin ./main.go" \
 	              -command "./bin/main" -exclude-dir=.git \
@@ -51,3 +53,6 @@ test/drop:
 	tern migrate -c config/test.conf -m store/migrations -d 0
 
 .DEFAULT_GOAL := run/dev
+
+list:
+		sh -c "$(MAKE) -p no_targets__ | awk -F':' '/^[a-zA-Z0-9][^\$$#\/\\t=]*:([^=]|$$)/ {split(\$$1,A,/ /);for(i in A)print A[i]}' | grep -v '__\$$' | sort"
